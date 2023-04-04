@@ -1,1 +1,4 @@
 gdal
+rasterio
+re
+numpy
