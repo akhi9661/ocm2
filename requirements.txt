@@ -1,2 +1,1 @@
 numpy==1.23.5
-rasterio==1.2.10
