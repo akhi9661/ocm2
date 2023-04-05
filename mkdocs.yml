@@ -1,4 +1,6 @@
 site_name: ocm2
+site_description: A python package to handle basic OCM-2 data processing
+site_author: Akhilesh Kumar
 
 site_url: https://akhi9661.github.io/ocm2
 
@@ -16,6 +18,9 @@ theme:
         # - navigation.expand
         # - navigation.tabs
     custom_dir: "docs/overrides"
+    font:
+        text: Google Sans
+        code: Regular
 
 plugins:
     - search
