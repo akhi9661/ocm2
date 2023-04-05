@@ -5,18 +5,17 @@ import numpy as np
 from osgeo import gdal, osr
 
 def ExportSubdatasets(path, hdf_file):
-    
-    '''
+
+    """    
     This function takes the folder path and the HDF file as input and exports individual layers to TIFF (named GeoTIFF)
     
     Parameters:
-    path (str): Path to the folder containing the HDF file
-    hdf_file (str): Name of the HDF file
+            path (str): Path to the folder containing the HDF file
+            hdf_file (str): Name of the HDF file
 
     Returns:
-    opf_tif (str): Path to the folder containing the exported TIFF files. The folder is named GeoTiff. The layers are not georeferenced.
-    
-    '''
+            opf_tif (str): Path to the folder containing the exported TIFF files. The folder is named GeoTiff. The layers are not georeferenced.
+    """
     opf_tif = os.path.join(path, 'GeoTiff')
     if os.path.exists(opf_tif):
         shutil.rmtree(opf_tif)
@@ -56,21 +55,21 @@ def ExportSubdatasets(path, hdf_file):
 
 def metaInfo(path, hdf_file):
 
-    '''
+    """
     This function takes the folder path and the HDF file as input and returns the metadata of the HDF file.
 
-    Parameters:
-    path (str): Path to the folder containing the HDF file
-    hdf_file (str): Name of the HDF file
+    Args:
+            path (str): Path to the folder containing the HDF file
+            hdf_file (str): Name of the HDF file
 
     Returns:
-    ulx, uly (float): Upper left corner coordinates
-    urx, ury (float): Upper right corner coordinates
-    blx, bly (float): Lower left corner coordinates
-    brx, bry (float): Lower right corner coordinates
-    sun_elev (float): Sun elevation angle
+            ulx, uly (float): Upper left corner coordinates
+            urx, ury (float): Upper right corner coordinates
+            blx, bly (float): Lower left corner coordinates
+            brx, bry (float): Lower right corner coordinates
+            sun_elev (float): Sun elevation angle
     
-    '''
+    """
     
     inp = gdal.Open(os.path.join(path, hdf_file))
     meta = inp.GetMetadata()
