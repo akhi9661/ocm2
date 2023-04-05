@@ -1,1 +1,4 @@
-gdal
+gdal==3.5.0
+rasterio==1.2.10
+re
+numpy==1.23.5
