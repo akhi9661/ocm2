@@ -1,7 +1,15 @@
 """Main module."""
 
-import os, shutil
-from osgeo import gdal, osr
+import os, shutil, rasterio
+import numpy as np
+
+try:
+    from osgeo import gdal, osr
+except ImportError:
+    raise (""" ERROR: Could not find the GDAL/OGR Python library bindings. 
+               You can install them in conda using the following command: 
+                conda install -c conda-forge gdal
+                Note: May need to create a new virtual environment to install GDAL.""")
 
 def ExportSubdatasets(path, hdf_file):
     
