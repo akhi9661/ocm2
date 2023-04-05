@@ -2,3 +2,7 @@ gdal==3.5.0
 rasterio==1.2.10
 re
 numpy==1.23.5
+
+--global-option=build_ext
+--global-option="-I/usr/include/gdal"
+--global-option="-L/usr/lib -lgdal"
