@@ -1,6 +1,6 @@
 """Main module."""
 
-import os, shutil, rasterio
+import os, shutil
 import numpy as np
 from osgeo import gdal, osr
 
