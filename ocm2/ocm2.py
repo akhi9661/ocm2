@@ -5,8 +5,13 @@ import numpy as np
 from osgeo import gdal, osr
 
 def ExportSubdatasets(path, hdf_file):
+    
+     opf_tif = os.path.join(path, 'GeoTiff')
+     if os.path.exists(opf_tif):
+          shutil.rmtree(opf_tif)
+     os.makedirs(opf_tif)
 
-    """    
+     """   
     This function takes the folder path and the HDF file as input and exports individual layers to TIFF (named GeoTIFF)
     
     Parameters:
@@ -15,17 +20,14 @@ def ExportSubdatasets(path, hdf_file):
 
     Returns:
             opf_tif (str): Path to the folder containing the exported TIFF files. The folder is named GeoTiff. The layers are not georeferenced.
+    
     """
-    opf_tif = os.path.join(path, 'GeoTiff')
-    if os.path.exists(opf_tif):
-        shutil.rmtree(opf_tif)
-    os.makedirs(opf_tif)
+
+     inp_hdf = os.path.join(path, hdf_file)
+     hdf_ds = gdal.Open(inp_hdf, gdal.GA_ReadOnly)
+     subdatasets = hdf_ds.GetSubDatasets()
     
-    inp_hdf = os.path.join(path, hdf_file)
-    hdf_ds = gdal.Open(inp_hdf, gdal.GA_ReadOnly)
-    subdatasets = hdf_ds.GetSubDatasets()
-    
-    for i in range(0, len(subdatasets)):
+     for i in range(0, len(subdatasets)):
         subdataset_name = subdatasets[i][0]
         band_ds = gdal.Open(subdataset_name, gdal.GA_ReadOnly)
         band_path = os.path.join(opf_tif, 'band{0}.TIF'.format(i))
@@ -49,26 +51,26 @@ def ExportSubdatasets(path, hdf_file):
         out_ds.GetRasterBand(1).WriteArray(band_array)
         out_ds.GetRasterBand(1).SetNoDataValue(-32768)
         
-    out_ds = None
-        
-    return opf_tif
+     out_ds = None
+     
+     return opf_tif
 
 def metaInfo(path, hdf_file):
 
     """
     This function takes the folder path and the HDF file as input and returns the metadata of the HDF file.
 
-    Args:
+    Parameters:
             path (str): Path to the folder containing the HDF file
             hdf_file (str): Name of the HDF file
 
     Returns:
-            ulx, uly (float): Upper left corner coordinates
-            urx, ury (float): Upper right corner coordinates
-            blx, bly (float): Lower left corner coordinates
-            brx, bry (float): Lower right corner coordinates
-            sun_elev (float): Sun elevation angle
-    
+           
+            (ulx,  uly) (tuple): Upper left corner coordinates
+            (urx, ury) (tuple): Upper right corner coordinates
+            (brx, bry) (tuple): Lower right corner coordinates
+            (blx, bly) (tuple): Lower left corner coordinates
+            (sun_elev) (float): Sun elevation angle
     """
     
     inp = gdal.Open(os.path.join(path, hdf_file))
@@ -85,16 +87,16 @@ def metaInfo(path, hdf_file):
 
 def GetExtent(ds):
     
-    ''' 
+    """
     Return list of corner coordinates from a gdal Dataset 
     
     Parameters:
-    ds (gdal.Dataset): A gdal Dataset [something like: ds = gdal.Open('path/to/file.tif')]
+            ds (gdal.Dataset): A gdal Dataset [something like: ds = gdal.Open('path/to/file.tif')]
 
     Returns:
-    ul, ur, lr, ll (tuple): Upper left, upper right, lower right, lower left corner coordinates
+            ul, ur, lr, ll (tuple): Upper left, upper right, lower right, lower left corner coordinates
     
-    '''
+    """
     
     xmin, xpixel, _, ymax, _, ypixel = ds.GetGeoTransform()
     width, height = ds.RasterXSize, ds.RasterYSize
@@ -105,20 +107,19 @@ def GetExtent(ds):
 
 def Georeference(inpf, gtif, meta, opf_ref):
 
-    '''
+    """
     This function takes the folder path and the GeoTIFF file as input and georeferences the GeoTIFF file.
 
     Parameters:
-    inpf (str): Path to the folder containing the GeoTIFF file
-    gtif (str): Name of the GeoTIFF file
-    meta (tuple): Metadata of the HDF file. Returned by `metaInfo` function.
-    opf_ref (str): Path to the folder containing the georeferenced GeoTIFF file. Inherited from `do_georef` function.
+            inpf (str): Path to the folder containing the GeoTIFF file
+            gtif (str): Name of the GeoTIFF file
+            meta (tuple): Metadata of the HDF file. Returned by `metaInfo` function.
+            opf_ref (str): Path to the folder containing the georeferenced GeoTIFF file. Inherited from `do_georef` function.
 
     Returns:
-    out_file (str): Path to the georeferenced GeoTIFF file. 
-    The file is named as the original GeoTIFF file with _georef.TIF appended to it. 
+            None
     
-    '''
+    """
     
     inp_file = os.path.join(inpf, gtif)
     band_tif = gdal.Open(inp_file)
@@ -151,24 +152,63 @@ def Georeference(inpf, gtif, meta, opf_ref):
     
     return 'Done'
 
-def do_georef(geo_tif, meta, opf_georef):
+def do_georef(path, hdf_file, TIF = False, **output_options):
 
-    '''
-    This function takes the folder path and the GeoTIFF files within it as input and georeferences the GeoTIFF file.
+    """
+    This function takes the folder path and the GeoTIFF files within it as input and georeferences the GeoTIFF file. If the GeoTIFF files are not extracted, it extracts them first. 
 
     Parameters:
-    geo_tif (str): Path to the folder containing the GeoTIFF files
-    meta (tuple): Metadata of the HDF file.
-    opf_georef (str): Path to the folder containing the georeferenced GeoTIFF file. The folder is named GeoTiff_ref
+            path (str): Path to the folder containing the HDF file
+            hdf_file (str): Name of the HDF file
+            TIF (bool, optional): Check if the GeoTIFF files are already extracted. Default: False
+            **output_options (dict, optional): Dictionary containing the output options. 
+                                              if `TIF = True`, provide the path to the folder containing the GeoTIFF files by using: `do_georef(path, meta, TIF = True, geo_tif = "path/to/geotiff/folder")`   
+                                              opf_georef (str, optional): Path to the output folder containing the georeferenced GeoTIFF file.
+                                                            Default: `path` + "Georeferenced". To set, use: `do_georef(path, meta, opf_georef = "path/to/folder")`          
 
     Returns:
-    None
+            None
+    """
+    if TIF:
+
+         if 'opf_georef' not in output_options:
+             opf_georef = os.path.join(path, "Georeferenced")
+             if os.path.exists(opf_georef):
+                 shutil.rmtree(opf_georef)
+             os.mkdir(opf_georef)
+
+         else:
+             opf_georef = output_options['opf_georef']
+             if os.path.exists(opf_georef):
+                 shutil.rmtree(opf_georef)
+             os.mkdir(opf_georef)
+
+         geo_tif = output_options['geo_tif']
+         meta = metaInfo(path, hdf_file)
+         original = os.listdir(geo_tif)
+         gtif = list(filter(lambda x: x.endswith(("TIF", "tif", "img")), original))
+         for tif in gtif:
+              Georeference(geo_tif, tif, meta, opf_georef)
+
+    else:
+         if 'opf_georef' not in output_options:
+             opf_georef = os.path.join(path, "Georeferenced")
+             if os.path.exists(opf_georef):
+                 shutil.rmtree(opf_georef)
+             os.mkdir(opf_georef)
+
+         else:
+             opf_georef = output_options['opf_georef']
+             if os.path.exists(opf_georef):
+                 shutil.rmtree(opf_georef)
+             os.mkdir(opf_georef)
     
-    '''
-    
-    original = os.listdir(geo_tif)
-    gtif = list(filter(lambda x: x.endswith(("TIF", "tif", "img")), original))
-    for band_name in gtif:
-        Georeference(geo_tif, band_name, meta, opf_georef)
+         meta = metaInfo(path, hdf_file)
+         opf_tif = ExportSubdatasets(path, hdf_file)
+         
+         original = os.listdir(opf_tif)
+         gtif = list(filter(lambda x: x.endswith(("TIF", "tif", "img")), original))
+         for tif in gtif:
+              Georeference(opf_tif, tif, meta, opf_georef)
         
     return None
