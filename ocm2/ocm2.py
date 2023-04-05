@@ -2,14 +2,7 @@
 
 import os, shutil, rasterio
 import numpy as np
-
-try:
-    from osgeo import gdal, osr
-except ImportError:
-    raise (""" ERROR: Could not find the GDAL/OGR Python library bindings. 
-               You can install them in conda using the following command: 
-                conda install -c conda-forge gdal
-                Note: May need to create a new virtual environment to install GDAL.""")
+from osgeo import gdal, osr
 
 def ExportSubdatasets(path, hdf_file):
     
@@ -179,77 +172,4 @@ def do_georef(geo_tif, meta, opf_georef):
     for band_name in gtif:
         Georeference(geo_tif, band_name, meta, opf_georef)
         
-    return None
-
-def calc_toa(rad, sun_elev, band_no):
-
-    '''
-    This function takes the radiance values and the sun elevation angle as input and converts the radiance values to TOA reflectance.
-    Parameters:
-    rad (numpy.ndarray): Radiance values
-    sun_elev (float): Sun elevation angle. Returned by `metaInfo` function.
-    band_no (int): Band number. 
-
-    Returns:
-    toa_reflectance (numpy.ndarray): TOA reflectance values
-    
-    '''
-
-    esol = [1.72815, 1.85211, 1.9721, 1.86697, 1.82781, 1.65765, 1.2897, 0.952073]
-    toa_reflectance = (np.pi * 1 * rad * 10) / (esol[band_no] * 1000 * math.sin(math.radians(sun_elev)))
-    return toa_reflectance
-
-def toa_convert(inpf, inp_name, opf, sun_elev):
-
-    '''
-    This function takes the folder path and the GeoTIFF files within it as input and converts the radiance values to TOA reflectance values.
-
-    Parameters:
-    inpf (str): Path to the folder containing the GeoTIFF files
-    inp_name (str): Name of the GeoTIFF file
-    opf (str): Path to the folder containing the TOA reflectance GeoTIFF file. 
-
-    Returns:
-    None
-    
-    '''
-    
-    band_no = int(''.join(list(filter(str.isdigit, inp_name.split('.')[0].split('_')[0]))))
-    with rasterio.open(os.path.join(inpf, inp_name)) as (r):
-        rad = r.read(1).astype('float32')
-        profile = r.profile
-    
-    toa = calc_toa(rad, sun_elev, band_no)
-    toa[toa < 0] = 0.0
-    toa[toa > 2] = 0.0   
-    op_name = os.path.basename(inp_name).split('.')[0] + '.TIF'
-    with (rasterio.open)((os.path.join(opf, op_name)), 'w', **profile) as (dataset):
-        dataset.write(toa, 1)
-    dataset.close()
-        
-    return 'done'
-
-def do_ref(opf_tif, meta, opf_ref):
-
-    '''
-    This function takes the folder path and the GeoTIFF files within it as input and converts the radiance values to TOA reflectance values.
-
-    Parameters:
-    opf_tif (str): Path to the folder containing the GeoTIFF files
-    meta (tuple): Metadata of the HDF file.
-    opf_ref (str): Path to the folder containing the TOA reflectance GeoTIFF file.
-
-    Returns:
-    None    
-
-    '''
-    
-    original = os.listdir(opf_tif)
-    gtif = list(filter(lambda x: x.endswith(("TIF", "tif", "img")), original))
-    for band_name in gtif:
-        if (int(''.join(list(filter(str.isdigit, band_name.split('.')[0].split('_')[0]))))) <= 7:
-            toa_convert(opf_tif, band_name, opf_ref, meta[4])
-        else:
-            shutil.copy(os.path.join(opf_tif, band_name), os.path.join(opf_ref, band_name))
-            
     return None
