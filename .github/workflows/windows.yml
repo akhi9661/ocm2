@@ -12,8 +12,8 @@ jobs:
         runs-on: windows-latest
         steps:
             - uses: actions/checkout@v3
-            - name: Install anaconda
-              uses: conda-incubator/setup-anaconda@v2
+            - name: Install miniconda
+              uses: conda-incubator/setup-miniconda@v2
               with:
                   auto-activate-base: true
                   python-version: 3.9
