@@ -3,9 +3,10 @@
 
 [![image](https://img.shields.io/pypi/v/ocm2.svg)](https://pypi.python.org/pypi/ocm2)
 [![image](https://img.shields.io/conda/vn/conda-forge/ocm2.svg)](https://anaconda.org/conda-forge/ocm2)
+[![Python Versions](https://img.shields.io/pypi/pyversions/ocm2.svg)](https://pypi.org/project/ocm2/)
 
 
-**This python package extracts subdatasets from OCM-2 HDF file, georeference them and exports them to GeoTIFF. The package also creates a cloud mask layer.**
+**This python package extracts sub-datasets from OCM-2 HDF file, geo-reference them and exports them to GeoTIFF. The package also creates a cloud mask layer.**
 
 
 -   Free software: MIT license
@@ -14,7 +15,8 @@
 
 ## Features
 
--   TODO
+-   Extract sub-datasets from OCM-2 HDF file
+-   Geo-reference the extracted GeoTIFF files or extract and geo-reference them if not extracted.
 
 ## Credits
 
