@@ -1,6 +1,6 @@
 """Main module."""
 
-import os, shutil
+import os, shutil, math
 import numpy as np
 from osgeo import gdal, osr
 
@@ -55,7 +55,7 @@ def ExportSubdatasets(path, hdf_file):
      
      return opf_tif
 
-def metaInfo(path, hdf_file):
+def metaInfo(path, hdf_file, input = None):
 
     """
     This function takes the folder path and the HDF file as input and returns the metadata of the HDF file.
@@ -63,6 +63,7 @@ def metaInfo(path, hdf_file):
     Parameters:
             path (str): Path to the folder containing the HDF file
             hdf_file (str): Name of the HDF file
+            input (str): Input parameter to be returned. Default is None. If input is a list, the function returns the values of all the input parameters.
 
     Returns:
            
@@ -82,6 +83,15 @@ def metaInfo(path, hdf_file):
     brx, bry = float(meta['Lower Right Longitude']), float(meta['Lower Right Latitude'])
     
     sun_elev = float(meta['Sun Elevation Angle'])
+
+    if input is not None:
+        try:
+            for i, index in enumerate(input):
+                print('Input parameter: ', meta[index])
+        except:
+            print(f'Input parameter "{index}" not found')
+
+    
     
     return (ulx,  uly), (urx, ury), (brx, bry), (blx, bly), (sun_elev)
 
@@ -161,11 +171,11 @@ def do_georef(path, hdf_file, TIF = False, **output_options):
             path (str): Path to the folder containing the HDF file
             hdf_file (str): Name of the HDF file
             TIF (bool, optional): Check if the GeoTIFF files are already extracted. Default: False
-            **output_options (dict, optional): Dictionary containing the output options. 
-                                              if `TIF = True`, provide the path to the folder containing the GeoTIFF files by using: `do_georef(path, meta, TIF = True, geo_tif = "path/to/geotiff/folder")`   
-                                              opf_georef (str, optional): Path to the output folder containing the georeferenced GeoTIFF file.
-                                                            Default: `path` + "Georeferenced". To set, use: `do_georef(path, meta, opf_georef = "path/to/folder")`          
+            geo_tif (str, optional): Path to the folder containing the GeoTIFF files. If `TIF = True`, use: `do_georef(path, meta, TIF = True, geo_tif = "path/to/geotiff/folder")`
+            opf_georef (str, optional): Path to the output folder containing the georeferenced GeoTIFF file. Default: `path` + "Georeferenced". 
+                                        To set, use: `do_georef(path, meta, opf_georef = "path/to/folder")`.        
 
+            **output_options (dict, optional): Dictionary containing the output options. 
     Returns:
             None
     """
@@ -211,4 +221,103 @@ def do_georef(path, hdf_file, TIF = False, **output_options):
          for tif in gtif:
               Georeference(opf_tif, tif, meta, opf_georef)
         
+    return None
+
+def calc_toa(rad, sun_elev, band_no):
+
+    """
+
+    This function takes the radiance values and the sun elevation angle as input and returns the TOA reflectance values.
+
+    Parameters:
+            rad (float): Radiance value
+            sun_elev (float): Sun elevation angle. Inherited from the `metaInfo` function.
+            band_no (int): Band number
+
+    Returns:
+            toa_reflectance (float): TOA reflectance value
+    """
+
+    esol = [1.72815, 1.85211, 1.9721, 1.86697, 1.82781, 1.65765, 1.2897, 0.952073]
+    toa_reflectance = (np.pi * 1 * rad * 10) / (esol[band_no] * 1000 * math.sin(math.radians(sun_elev)))
+    return toa_reflectance
+
+def toa_convert(inpf, inp_name, opf, sun_elev):
+    
+    """
+    This function takes the folder path and the GeoTIFF files within it as input and converts the radiance values to TOA reflectance values.
+
+    Parameters:
+            inpf (str): Path to the folder containing the GeoTIFF files
+            inp_name (str): Name of the GeoTIFF file
+            opf (str): Path to the folder containing the TOA reflectance GeoTIFF file. 
+            sun_elev (float): Sun elevation angle. Inherited from the `metaInfo` function.
+
+    Returns:
+            None
+    """
+
+    try:
+        import rasterio
+    except ImportError:
+        raise ImportError("rasterio is required for reading the file. Please install it using 'pip install rasterio'.")
+    
+    
+    band_no = int(''.join(list(filter(str.isdigit, inp_name.split('.')[0].split('_')[0]))))
+    with rasterio.open(os.path.join(inpf, inp_name)) as (r):
+        rad = r.read(1).astype('float32')
+        profile = r.profile
+    
+    toa = calc_toa(rad, sun_elev, band_no)
+    toa[toa < 0] = 0.0
+    toa[toa > 2] = 0.0   
+    op_name = os.path.basename(inp_name).split('.')[0] + '.TIF'
+    with (rasterio.open)((os.path.join(opf, op_name)), 'w', **profile) as (dataset):
+        dataset.write(toa, 1)
+    dataset.close()
+        
+    return None
+
+def do_reflectance(hdf_path, hdf_file, input_format = 'GTiff', geo_tif = None):
+
+    """
+    This function takes the folder path and the GeoTIFF files within it as input and converts the radiance values to TOA reflectance values.
+
+    Parameters:
+            hdf_path (str): Path to the folder containing the HDF file
+            hdf_file (str): Name of the HDF file
+            input_format (str, optional): Format of the input file. Default: `GTiff`. If HDF, use: `do_ref(path, hdf_file, input_format = "HDF")`.
+            geo_tif(str, optional): Path to the folder containing the GeoTIFF files. Required if `input_format` is `GTiff`. Default: `None`. (Optional
+    
+    Returns:
+            None    
+    """
+
+    opf_ref = os.path.join(hdf_path, 'Reflectance')
+    if os.path.exists(opf_ref):
+        shutil.rmtree(opf_ref)
+    os.makedirs(opf_ref)
+
+    meta = metaInfo(hdf_path, hdf_file)
+
+    if input_format == 'HDF':
+        print('Processing now: Exporting Subdatasets')
+        opf_tif = ExportSubdatasets(hdf_path, hdf_file)
+
+    else:
+        opf_tif = geo_tif
+
+    print('Processing now: TOA Reflectance Conversion')
+
+    original = os.listdir(opf_tif)
+    gtif = list(filter(lambda x: x.endswith(("TIF", "tif", "img")), original))
+    for band_name in gtif:
+        if (int(''.join(list(filter(str.isdigit, band_name.split('.')[0].split('_')[0]))))) <= 7:
+            toa_convert(opf_tif, band_name, opf_ref, meta[4])
+        else:
+            shutil.copy(os.path.join(opf_tif, band_name), os.path.join(opf_ref, band_name))
+
+    print('Processing now: Georeferencing')
+    do_georef(path = hdf_path, hdf_file = hdf_file, TIF = True, geo_tif = opf_ref)
+            
     return None
