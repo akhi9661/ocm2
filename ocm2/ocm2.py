@@ -67,11 +67,11 @@ def metaInfo(path, hdf_file, input = None):
 
     Returns:
            
-            (ulx,  uly) (tuple): Upper left corner coordinates
-            (urx, ury) (tuple): Upper right corner coordinates
-            (brx, bry) (tuple): Lower right corner coordinates
-            (blx, bly) (tuple): Lower left corner coordinates
-            (sun_elev) (float): Sun elevation angle
+            ulx,  uly (tuple): Upper left corner coordinates
+            urx, ury (tuple): Upper right corner coordinates
+            brx, bry (tuple): Lower right corner coordinates
+            blx, bly (tuple): Lower left corner coordinates
+            sun_elev (float): Sun elevation angle
     """
     
     inp = gdal.Open(os.path.join(path, hdf_file))
@@ -170,12 +170,10 @@ def do_georef(path, hdf_file, TIF = False, **output_options):
     Parameters:
             path (str): Path to the folder containing the HDF file
             hdf_file (str): Name of the HDF file
-            TIF (bool, optional): Check if the GeoTIFF files are already extracted. Default: False
-            geo_tif (str, optional): Path to the folder containing the GeoTIFF files. If `TIF = True`, use: `do_georef(path, meta, TIF = True, geo_tif = "path/to/geotiff/folder")`
-            opf_georef (str, optional): Path to the output folder containing the georeferenced GeoTIFF file. Default: `path` + "Georeferenced". 
-                                        To set, use: `do_georef(path, meta, opf_georef = "path/to/folder")`.        
+            TIF (bool, optional): Check if the GeoTIFF files are already extracted. Default: False. If `TIF = True`, use: `do_georef(path, meta, TIF = True, geo_tif = "path/to/geotiff/folder")`. 
+                                  opf_georef (`str`): Path to the output folder containing the georeferenced GeoTIFF file. Default: `path` + "Georeferenced". To set, use: `do_georef(path, meta, opf_georef = "path/to/folder")`.        
 
-            **output_options (dict, optional): Dictionary containing the output options. 
+            **output_options (dict, optional): Dictionary containing the output options [including `opf_georef`, `geo_tif`]
     Returns:
             None
     """
@@ -286,8 +284,8 @@ def do_reflectance(hdf_path, hdf_file, input_format = 'GTiff', geo_tif = None):
     Parameters:
             hdf_path (str): Path to the folder containing the HDF file
             hdf_file (str): Name of the HDF file
-            input_format (str, optional): Format of the input file. Default: `GTiff`. If HDF, use: `do_ref(path, hdf_file, input_format = "HDF")`.
-            geo_tif(str, optional): Path to the folder containing the GeoTIFF files. Required if `input_format` is `GTiff`. Default: `None`. (Optional
+            input_format (str, optional): Format of the input file. Default: `GTiff`. If HDF, use: `do_ref(path, hdf_file, input_format = "HDF")`. 
+                                          geo_tif(str, optional): Path to the folder containing the GeoTIFF files. Required if `input_format` is `GTiff`. Default: `None`.
     
     Returns:
             None    
