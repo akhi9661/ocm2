@@ -1,5 +1,4 @@
 from ocm2 import run_ocm2
-import argparse
 
 def main():
 
