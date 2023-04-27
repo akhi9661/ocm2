@@ -1,33 +1,42 @@
-"""Main module."""
-
-import os, shutil, math
+import os, re, shutil, math
 import numpy as np
-from osgeo import gdal, osr
+
+try:
+    import rasterio
+except ImportError:
+    raise ImportError("`rasterio` is required for reading the file. Please install it using 'pip install rasterio' or 'conda install -c conda-forge rasterio'")
+
+try:
+    from osgeo import gdal, osr, gdalconst
+except ImportError:
+    raise ImportError("`gdal` is required for reading the file. Please install it using 'pip install gdal' or 'conda install -c conda-forge gdal'")
+
+
 
 def ExportSubdatasets(path, hdf_file):
-    
-     opf_tif = os.path.join(path, 'GeoTiff')
-     if os.path.exists(opf_tif):
-          shutil.rmtree(opf_tif)
-     os.makedirs(opf_tif)
 
-     """   
-    This function takes the folder path and the HDF file as input and exports individual layers to TIFF (named GeoTIFF)
-    
+    """
+    This function exports the subdatasets of the HDF file to GeoTiff format.
+
     Parameters:
-            path (str): Path to the folder containing the HDF file
-            hdf_file (str): Name of the HDF file
+        path (str): Path to the folder containing the HDF file.
+        hdf_file (str): Name of the HDF file.
 
     Returns:
-            opf_tif (str): Path to the folder containing the exported TIFF files. The folder is named GeoTiff. The layers are not georeferenced.
-    
+        opf_tif (str): Path to the folder containing the GeoTiff files.
+        
     """
-
-     inp_hdf = os.path.join(path, hdf_file)
-     hdf_ds = gdal.Open(inp_hdf, gdal.GA_ReadOnly)
-     subdatasets = hdf_ds.GetSubDatasets()
+ 
+    opf_tif = os.path.join(path, 'GeoTiff')
+    if os.path.exists(opf_tif):
+        shutil.rmtree(opf_tif)
+    os.makedirs(opf_tif)
     
-     for i in range(0, len(subdatasets)):
+    inp_hdf = os.path.join(path, hdf_file)
+    hdf_ds = gdal.Open(inp_hdf, gdal.GA_ReadOnly)
+    subdatasets = hdf_ds.GetSubDatasets()
+    
+    for i in range(0, len(subdatasets)):
         subdataset_name = subdatasets[i][0]
         band_ds = gdal.Open(subdataset_name, gdal.GA_ReadOnly)
         band_path = os.path.join(opf_tif, 'band{0}.TIF'.format(i))
@@ -51,27 +60,22 @@ def ExportSubdatasets(path, hdf_file):
         out_ds.GetRasterBand(1).WriteArray(band_array)
         out_ds.GetRasterBand(1).SetNoDataValue(-32768)
         
-     out_ds = None
-     
-     return opf_tif
-
-def metaInfo(path, hdf_file, input = None):
+    out_ds = None
+        
+    return opf_tif
+    
+def metaInfo(path, hdf_file):
 
     """
-    This function takes the folder path and the HDF file as input and returns the metadata of the HDF file.
+    This function returns the metadata of the HDF file.
 
     Parameters:
-            path (str): Path to the folder containing the HDF file
-            hdf_file (str): Name of the HDF file
-            input (str): Input parameter to be returned. Default is None. If input is a list, the function returns the values of all the input parameters.
+        path (str): Path to the folder containing the HDF file.
+        hdf_file (str): Name of the HDF file.
 
-    Returns:
-           
-            ulx,  uly (tuple): Upper left corner coordinates
-            urx, ury (tuple): Upper right corner coordinates
-            brx, bry (tuple): Lower right corner coordinates
-            blx, bly (tuple): Lower left corner coordinates
-            sun_elev (float): Sun elevation angle
+    Returns:    
+        meta (dict): Dictionary containing the metadata of the HDF file. 
+    
     """
     
     inp = gdal.Open(os.path.join(path, hdf_file))
@@ -83,29 +87,20 @@ def metaInfo(path, hdf_file, input = None):
     brx, bry = float(meta['Lower Right Longitude']), float(meta['Lower Right Latitude'])
     
     sun_elev = float(meta['Sun Elevation Angle'])
-
-    if input is not None:
-        try:
-            for i, index in enumerate(input):
-                print('Input parameter: ', meta[index])
-        except:
-            print(f'Input parameter "{index}" not found')
-
-    
     
     return (ulx,  uly), (urx, ury), (brx, bry), (blx, bly), (sun_elev)
-
+    
 def GetExtent(ds):
     
     """
-    Return list of corner coordinates from a gdal Dataset 
-    
+    This function returns the extent of the raster. 
+
     Parameters:
-            ds (gdal.Dataset): A gdal Dataset [something like: ds = gdal.Open('path/to/file.tif')]
+        ds (object): GDAL dataset object.
 
     Returns:
-            ul, ur, lr, ll (tuple): Upper left, upper right, lower right, lower left corner coordinates
-    
+        (xmin, ymax), (xmax, ymax), (xmax, ymin), (xmin, ymin) (tuple): Extent of the raster.
+       
     """
     
     xmin, xpixel, _, ymax, _, ypixel = ds.GetGeoTransform()
@@ -115,20 +110,20 @@ def GetExtent(ds):
 
     return (xmin, ymax), (xmax, ymax), (xmax, ymin), (xmin, ymin)
 
+
 def Georeference(inpf, gtif, meta, opf_ref):
 
     """
-    This function takes the folder path and the GeoTIFF file as input and georeferences the GeoTIFF file.
+    This function georeferences the GeoTiff files using the metadata of the HDF file.
 
     Parameters:
-            inpf (str): Path to the folder containing the GeoTIFF file
-            gtif (str): Name of the GeoTIFF file
-            meta (tuple): Metadata of the HDF file. Returned by `metaInfo` function.
-            opf_ref (str): Path to the folder containing the georeferenced GeoTIFF file. Inherited from `do_georef` function.
+        inpf (str): Path to the folder containing the GeoTiff files.
+        gtif (str): Name of the GeoTiff file.
+        meta (dict): Dictionary containing the metadata of the HDF file.
 
     Returns:
-            None
-    
+        opf_ref (str): Path to the folder containing the georeferenced GeoTiff files.
+
     """
     
     inp_file = os.path.join(inpf, gtif)
@@ -160,80 +155,22 @@ def Georeference(inpf, gtif, meta, opf_ref):
     ds.SetGCPs(gcps, sr.ExportToWkt())
     ds = None
     
-    return 'Done'
+    return opf_ref
 
-def do_georef(path, hdf_file, TIF = False, **output_options):
-
-    """
-    This function takes the folder path and the GeoTIFF files within it as input and georeferences the GeoTIFF file. If the GeoTIFF files are not extracted, it extracts them first. 
-
-    Parameters:
-            path (str): Path to the folder containing the HDF file
-            hdf_file (str): Name of the HDF file
-            TIF (bool, optional): Check if the GeoTIFF files are already extracted. Default: False. If `TIF = True`, use: `do_georef(path, meta, TIF = True, geo_tif = "path/to/geotiff/folder")`. 
-                                  opf_georef (`str`): Path to the output folder containing the georeferenced GeoTIFF file. Default: `path` + "Georeferenced". To set, use: `do_georef(path, meta, opf_georef = "path/to/folder")`.        
-
-            **output_options (dict, optional): Dictionary containing the output options [including `opf_georef`, `geo_tif`]
-    Returns:
-            None
-    """
-    if TIF:
-
-         if 'opf_georef' not in output_options:
-             opf_georef = os.path.join(path, "Georeferenced")
-             if os.path.exists(opf_georef):
-                 shutil.rmtree(opf_georef)
-             os.mkdir(opf_georef)
-
-         else:
-             opf_georef = output_options['opf_georef']
-             if os.path.exists(opf_georef):
-                 shutil.rmtree(opf_georef)
-             os.mkdir(opf_georef)
-
-         geo_tif = output_options['geo_tif']
-         meta = metaInfo(path, hdf_file)
-         original = os.listdir(geo_tif)
-         gtif = list(filter(lambda x: x.endswith(("TIF", "tif", "img")), original))
-         for tif in gtif:
-              Georeference(geo_tif, tif, meta, opf_georef)
-
-    else:
-         if 'opf_georef' not in output_options:
-             opf_georef = os.path.join(path, "Georeferenced")
-             if os.path.exists(opf_georef):
-                 shutil.rmtree(opf_georef)
-             os.mkdir(opf_georef)
-
-         else:
-             opf_georef = output_options['opf_georef']
-             if os.path.exists(opf_georef):
-                 shutil.rmtree(opf_georef)
-             os.mkdir(opf_georef)
-    
-         meta = metaInfo(path, hdf_file)
-         opf_tif = ExportSubdatasets(path, hdf_file)
-         
-         original = os.listdir(opf_tif)
-         gtif = list(filter(lambda x: x.endswith(("TIF", "tif", "img")), original))
-         for tif in gtif:
-              Georeference(opf_tif, tif, meta, opf_georef)
-        
-    return None
 
 def calc_toa(rad, sun_elev, band_no):
 
     """
-
-    This function takes the radiance values and the sun elevation angle as input and returns the TOA reflectance values.
+    This function calculates the top of atmosphere reflectance.
 
     Parameters:
-            rad (float): Radiance value
-            sun_elev (float): Sun elevation angle. Inherited from the `metaInfo` function.
-            band_no (int): Band number
+        rad (numpy array): Array containing the radiance values.
+        sun_elev (float): Sun elevation angle.
+        band_no (int): Band number.
 
     Returns:
-            toa_reflectance (float): TOA reflectance value
+        toa_reflectance (numpy array): Array containing the top of atmosphere reflectance values.
+
     """
 
     esol = [1.72815, 1.85211, 1.9721, 1.86697, 1.82781, 1.65765, 1.2897, 0.952073]
@@ -241,25 +178,20 @@ def calc_toa(rad, sun_elev, band_no):
     return toa_reflectance
 
 def toa_convert(inpf, inp_name, opf, sun_elev):
-    
+
     """
-    This function takes the folder path and the GeoTIFF files within it as input and converts the radiance values to TOA reflectance values.
+    This function converts the radiance values to top of atmosphere reflectance values.
 
     Parameters:
-            inpf (str): Path to the folder containing the GeoTIFF files
-            inp_name (str): Name of the GeoTIFF file
-            opf (str): Path to the folder containing the TOA reflectance GeoTIFF file. 
-            sun_elev (float): Sun elevation angle. Inherited from the `metaInfo` function.
+        inpf (str): Path to the folder containing the GeoTiff files.
+        inp_name (str): Name of the GeoTiff file.
+        opf (str): Path to the folder containing the output GeoTiff files.
+        sun_elev (float): Sun elevation angle.
 
     Returns:
-            None
-    """
+        opf (str): Path to the folder containing the output GeoTiff files.
 
-    try:
-        import rasterio
-    except ImportError:
-        raise ImportError("rasterio is required for reading the file. Please install it using 'pip install rasterio'.")
-    
+    """
     
     band_no = int(''.join(list(filter(str.isdigit, inp_name.split('.')[0].split('_')[0]))))
     with rasterio.open(os.path.join(inpf, inp_name)) as (r):
@@ -274,39 +206,129 @@ def toa_convert(inpf, inp_name, opf, sun_elev):
         dataset.write(toa, 1)
     dataset.close()
         
-    return None
+    return opf
 
-def do_reflectance(hdf_path, hdf_file, input_format = 'GTiff', geo_tif = None):
+def list_files(inpf, inp_name, files):
 
     """
-    This function takes the folder path and the GeoTIFF files within it as input and converts the radiance values to TOA reflectance values.
+    This function lists the GeoTiff files.
 
     Parameters:
-            hdf_path (str): Path to the folder containing the HDF file
-            hdf_file (str): Name of the HDF file
-            input_format (str, optional): Format of the input file. Default: `GTiff`. If HDF, use: `do_ref(path, hdf_file, input_format = "HDF")`. 
-                                          geo_tif(str, optional): Path to the folder containing the GeoTIFF files. Required if `input_format` is `GTiff`. Default: `None`.
-    
+        inpf (str): Path to the folder containing the GeoTiff files.
+        inp_name (str): Name of the GeoTiff file.
+        files (list): List containing the GeoTiff files. Empty list at the beginning.
+
     Returns:
-            None    
+        files (list): List containing the GeoTiff files.
+
     """
+    
+    files.append(os.path.join(inpf, inp_name))
+    return files
+        
+    
+def sum_toa(filelist):
 
-    opf_ref = os.path.join(hdf_path, 'Reflectance')
-    if os.path.exists(opf_ref):
-        shutil.rmtree(opf_ref)
-    os.makedirs(opf_ref)
+    """
+    This function sums the top of atmosphere reflectance values.
 
-    meta = metaInfo(hdf_path, hdf_file)
+    Parameters:
+        filelist (list): List containing the GeoTiff files.
 
-    if input_format == 'HDF':
-        print('Processing now: Exporting Subdatasets')
-        opf_tif = ExportSubdatasets(hdf_path, hdf_file)
+    Returns:
+        arr (numpy array): Array containing the sum of the top of atmosphere reflectance values.
 
-    else:
-        opf_tif = geo_tif
+    """
+    
+    with rasterio.open(filelist[0]) as r:
+        arr = r.read()
+        profile = r.profile
+        
+    for f in filelist[1:]:
+        with rasterio.open(f) as r:
+            assert profile == r.profile, 'stopping, file {} and  {} do not have matching profiles'.format(filelist[0], f)
+            arr = arr + r.read()
 
-    print('Processing now: TOA Reflectance Conversion')
+    return (arr)
 
+def toa_other(filelist):
+
+    """
+    This function calculates the difference and ratio of the top of atmosphere reflectance values.
+
+    Parameters:
+        filelist (list): List containing the GeoTiff files.
+
+    Returns:
+        toa_diff (numpy array): Array containing the difference of the top of atmosphere reflectance values.
+        toa_ratio (numpy array): Array containing the ratio of the top of atmosphere reflectance values.
+        shape (tuple): Tuple containing the shape of the GeoTiff file.
+        profile (dict): Dictionary containing the profile of the GeoTiff file.
+
+    """
+     
+    one, two, seven = [filelist[check] for check in [0,1,6]]
+    
+    with rasterio.open(one) as r:
+        band1 = r.read()
+        profile = r.profile
+    shape = band1.shape
+    with rasterio.open(two) as r:
+        band2 = r.read()
+    with rasterio.open(seven) as r:
+        band7 = r.read()
+        
+    
+    band2[band2 == 0.0] = np.nan
+    band7[band7 == 0.0] = np.nan
+
+    toa_diff = band2 - band1
+    toa_ratio = band2/band7 
+
+    return (toa_diff, toa_ratio, shape, profile)
+
+def cloudmask_ocm(inpf, filelist):
+
+    """
+    This function creates the cloud mask based on Mishra et al. (2018).
+
+    Parameters:
+        inpf (str): Path to the folder containing the GeoTiff files.
+        filelist (list): List containing the GeoTiff files.
+
+    Returns:
+        cldmsk (numpy array): Array containing the cloud mask.
+
+    """
+    
+    toa_sum = sum_toa(filelist)
+    toa_diff, toa_ratio, shape, profile = toa_other(filelist) 
+    
+    cldmsk = np.zeros(shape, dtype = 'float32')
+    cldmsk = np.where(((toa_sum > 2.7) & (toa_ratio > 1.5) & (toa_diff < 0)), 1, 0)
+    
+    with (rasterio.open)((os.path.join(inpf, 'cloud_mask.TIF')), 'w', **profile) as (dst):
+        dst.write(cldmsk)
+    dst.close()
+    
+    return cldmsk
+
+
+def do_ref(opf_tif, meta, opf_ref):
+
+    """
+    This function calls the function that creates the top of atmosphere reflectance GeoTiff files.
+
+    Parameters:
+        opf_tif (str): Path to the folder containing the GeoTiff files.
+        meta (list): List containing the metadata of the GeoTiff files.
+        opf_ref (str): Path to the folder containing the output reflectance GeoTiff files. Temporary folder.
+
+    Returns:
+        None
+
+    """
+    
     original = os.listdir(opf_tif)
     gtif = list(filter(lambda x: x.endswith(("TIF", "tif", "img")), original))
     for band_name in gtif:
@@ -314,8 +336,97 @@ def do_reflectance(hdf_path, hdf_file, input_format = 'GTiff', geo_tif = None):
             toa_convert(opf_tif, band_name, opf_ref, meta[4])
         else:
             shutil.copy(os.path.join(opf_tif, band_name), os.path.join(opf_ref, band_name))
-
-    print('Processing now: Georeferencing')
-    do_georef(path = hdf_path, hdf_file = hdf_file, TIF = True, geo_tif = opf_ref)
             
     return None
+    
+def do_georef(opf_ref, meta, opf_georef):
+
+    """
+    This function calls the function that georeferences the top of atmosphere reflectance GeoTiff files.
+
+    Parameters:
+        geo_ref (str): Path to the folder containing the georeferenced GeoTiff files.
+        meta (list): List containing the metadata of the HDF files.
+        opf_georef (str): Path to the folder containing the output georeferenced GeoTiff files. 
+
+    Returns:
+        opf_georef (str): Path to the folder containing the output georeferenced GeoTiff files.
+
+    """
+    
+    original = os.listdir(opf_ref)
+    gtif = list(filter(lambda x: x.endswith(("TIF", "tif", "img")), original))
+    for band_name in gtif:
+        Georeference(opf_ref, band_name, meta, opf_georef)
+        
+    return opf_georef
+    
+def do_cldmsk(opf_ref):
+
+    """
+    This function calls the function that creates the cloud mask.
+
+    Parameters:
+        opf_ref (str): Path to the folder containing the output georeferenced GeoTiff files.
+
+    Returns:
+        None
+
+    """
+    
+    files = []
+
+    original = os.listdir(opf_ref)
+    gtif = list(filter(lambda x: x.endswith(("TIF", "tif", "img")), original))
+    for band_name in gtif:
+        if (int(''.join(list(filter(str.isdigit, band_name.split('.')[0].split('_')[0]))))) <= 7:
+            filelist = list_files(opf_ref, band_name, files)
+
+    cldmsk = cloudmask_ocm(opf_ref, filelist)
+    
+    return None
+
+def run_ocm2(path, hdf_file):
+
+    """
+    This is the main function of the script. It calls all the other functions. 
+
+    Parameters:
+        path (str): Path to the folder containing the HDF files.
+        hdf_file (str): Name of the HDF file.
+
+    Returns:
+        None
+
+    """
+
+    meta = metaInfo(path, hdf_file)
+    opf_tif = ExportSubdatasets(path, hdf_file)
+    print('Done: Layers converted to GeoTIFF. Wait.')
+
+    opf_ref = os.path.join(path, 'Reflectance')
+    if os.path.exists(opf_ref):
+        shutil.rmtree(opf_ref)
+    os.makedirs(opf_ref)
+
+    opf_georef = os.path.join(path, 'Georeferenced')
+    if os.path.exists(opf_georef):
+        shutil.rmtree(opf_georef)
+    os.makedirs(opf_georef)
+
+    do_ref(opf_tif, meta, opf_ref)
+    print('Done: Reflectance conversion. Wait.')
+    
+    do_cldmsk(opf_ref)
+    print('Done: Cloudmasking. Wait.')
+    
+    opf_georef = do_georef(opf_ref, meta, opf_georef)
+    print('Done: Georeferncing')
+
+    if os.path.exists(opf_tif):
+        shutil.rmtree(opf_tif)
+        
+    if os.path.exists(opf_ref):
+        shutil.rmtree(opf_ref)
+
+    return opf_georef
