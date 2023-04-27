@@ -3,7 +3,7 @@ from ocm2 import run_ocm2
 def main():
 
     print('\n------------------------- OCM-2 HDF file processing -----------------------------')
-    print('This python package extracts subdatasets from OCM-2 HDF file, georeference them and exports them to GeoTIFF. \nThe package also creates a cloud mask layer.')
+    print('This python package extracts subdatasets from OCM-2 HDF file, georeferences them and exports them to GeoTIFF. \nThe package also creates a cloud mask layer.')
     print('The package requires the following inputs:')
     print('1. Path to the folder containing the HDF files [e.g. C:/Users/.../HDF_files/]')
     print('2. Name of the HDF file [e.g. O2_26APR2021_009_011_GAN_L1B_ST_S.hdf]')
