@@ -6,12 +6,12 @@ from osgeo import gdal, osr
 
 def ExportSubdatasets(path, hdf_file):
     
-     opf_tif = os.path.join(path, 'GeoTiff')
-     if os.path.exists(opf_tif):
-          shutil.rmtree(opf_tif)
-     os.makedirs(opf_tif)
+    opf_tif = os.path.join(path, 'GeoTiff')
+    if os.path.exists(opf_tif):
+        shutil.rmtree(opf_tif)
+    os.makedirs(opf_tif)
 
-     """   
+    """   
     This function takes the folder path and the HDF file as input and exports individual layers to TIFF (named GeoTIFF)
     
     Parameters:
@@ -23,11 +23,11 @@ def ExportSubdatasets(path, hdf_file):
     
     """
 
-     inp_hdf = os.path.join(path, hdf_file)
-     hdf_ds = gdal.Open(inp_hdf, gdal.GA_ReadOnly)
-     subdatasets = hdf_ds.GetSubDatasets()
+    inp_hdf = os.path.join(path, hdf_file)
+    hdf_ds = gdal.Open(inp_hdf, gdal.GA_ReadOnly)
+    subdatasets = hdf_ds.GetSubDatasets()
     
-     for i in range(0, len(subdatasets)):
+    for i in range(0, len(subdatasets)):
         subdataset_name = subdatasets[i][0]
         band_ds = gdal.Open(subdataset_name, gdal.GA_ReadOnly)
         band_path = os.path.join(opf_tif, 'band{0}.TIF'.format(i))
@@ -51,9 +51,9 @@ def ExportSubdatasets(path, hdf_file):
         out_ds.GetRasterBand(1).WriteArray(band_array)
         out_ds.GetRasterBand(1).SetNoDataValue(-32768)
         
-     out_ds = None
+    out_ds = None
      
-     return opf_tif
+    return opf_tif
 
 def metaInfo(path, hdf_file, input = None):
 
