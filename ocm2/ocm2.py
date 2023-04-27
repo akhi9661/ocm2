@@ -14,10 +14,22 @@ except ImportError:
 
 
 def ExportSubdatasets(path, hdf_file):
+<<<<<<< HEAD
 
     """
     This function exports the subdatasets of the HDF file to GeoTiff format.
 
+=======
+    
+    opf_tif = os.path.join(path, 'GeoTiff')
+    if os.path.exists(opf_tif):
+        shutil.rmtree(opf_tif)
+    os.makedirs(opf_tif)
+
+    """   
+    This function takes the folder path and the HDF file as input and exports individual layers to TIFF (named GeoTIFF)
+    
+>>>>>>> a29b381c2bf3552372f748b402e0193d1f560dc1
     Parameters:
         path (str): Path to the folder containing the HDF file.
         hdf_file (str): Name of the HDF file.
@@ -26,6 +38,7 @@ def ExportSubdatasets(path, hdf_file):
         opf_tif (str): Path to the folder containing the GeoTiff files.
         
     """
+<<<<<<< HEAD
  
     opf_tif = os.path.join(path, 'GeoTiff')
     if os.path.exists(opf_tif):
@@ -36,6 +49,13 @@ def ExportSubdatasets(path, hdf_file):
     hdf_ds = gdal.Open(inp_hdf, gdal.GA_ReadOnly)
     subdatasets = hdf_ds.GetSubDatasets()
     
+=======
+
+    inp_hdf = os.path.join(path, hdf_file)
+    hdf_ds = gdal.Open(inp_hdf, gdal.GA_ReadOnly)
+    subdatasets = hdf_ds.GetSubDatasets()
+    
+>>>>>>> a29b381c2bf3552372f748b402e0193d1f560dc1
     for i in range(0, len(subdatasets)):
         subdataset_name = subdatasets[i][0]
         band_ds = gdal.Open(subdataset_name, gdal.GA_ReadOnly)
@@ -61,10 +81,17 @@ def ExportSubdatasets(path, hdf_file):
         out_ds.GetRasterBand(1).SetNoDataValue(-32768)
         
     out_ds = None
+<<<<<<< HEAD
         
     return opf_tif
     
 def metaInfo(path, hdf_file):
+=======
+     
+    return opf_tif
+
+def metaInfo(path, hdf_file, input = None):
+>>>>>>> a29b381c2bf3552372f748b402e0193d1f560dc1
 
     """
     This function returns the metadata of the HDF file.
@@ -338,6 +365,7 @@ def do_ref(opf_tif, meta, opf_ref):
             shutil.copy(os.path.join(opf_tif, band_name), os.path.join(opf_ref, band_name))
             
     return None
+<<<<<<< HEAD
     
 def do_georef(opf_ref, meta, opf_georef):
 
@@ -430,3 +458,5 @@ def run_ocm2(path, hdf_file):
         shutil.rmtree(opf_ref)
 
     return opf_georef
+=======
+>>>>>>> a29b381c2bf3552372f748b402e0193d1f560dc1
