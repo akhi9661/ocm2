@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.2.0 - 28-04-2023
+- Added all functions. Ready to use.
+
 ## v0.1.0 - 06-04-2023
 - Added major functions for exporting sub-datasets and geo-referencing
 
