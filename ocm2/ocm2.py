@@ -74,9 +74,9 @@ def metaInfo(path, hdf_file, input = None):
         path (str): Path to the folder containing the HDF file.
         hdf_file (str): Name of the HDF file.
 
-    Returns:    
-        meta (dict): Dictionary containing the metadata of the HDF file. 
-    
+    Returns: 
+        (ulx,  uly), (urx, ury), (brx, bry), (blx, bly), (sun_elev) (tuple): Metadata of the HDF file.
+
     """
     
     inp = gdal.Open(os.path.join(path, hdf_file))
@@ -265,7 +265,7 @@ def toa_other(filelist):
         toa_ratio (numpy array): Array containing the ratio of the top of atmosphere reflectance values.
         shape (tuple): Tuple containing the shape of the GeoTiff file.
         profile (dict): Dictionary containing the profile of the GeoTiff file.
-
+        
     """
      
     one, two, seven = [filelist[check] for check in [0,1,6]]
