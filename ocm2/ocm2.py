@@ -397,7 +397,7 @@ def run_ocm2(path, hdf_file):
         hdf_file (str): Name of the HDF file.
 
     Returns:
-        None
+        opf_georef (str): Path to folder containing georeferenced ToA reflectance files.
 
     """
 
