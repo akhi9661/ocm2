@@ -1,0 +1,2049 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A python package to handle basic OCM-2 data processing">
+      
+      
+        <meta name="author" content="Akhilesh Kumar">
+      
+      
+        <link rel="canonical" href="https://akhi9661.github.io/ocm2/ocm2/">
+      
+      
+        <link rel="prev" href="../changelog/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.16">
+    
+    
+      
+        <title>ocm2 module - Ocean Colour Monitor - 2 (OCM-2)</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.26e3688c.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ecc896b0.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Google+Sans:300,300i,400,400i,700,700i%7CRegular:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Google Sans";--md-code-font:"Regular"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="preference" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ocm2-modules" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Ocean Colour Monitor - 2 (OCM-2)" class="md-header__button md-logo" aria-label="Ocean Colour Monitor - 2 (OCM-2)" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Ocean Colour Monitor - 2 (OCM-2)
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              ocm2 module
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/akhi9661/ocm2" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Ocean Colour Monitor - 2 (OCM-2)" class="md-nav__button md-logo" aria-label="Ocean Colour Monitor - 2 (OCM-2)" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Ocean Colour Monitor - 2 (OCM-2)
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/akhi9661/ocm2" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../usage/" class="md-nav__link">
+        Usage
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contributing/" class="md-nav__link">
+        Contributing
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq/" class="md-nav__link">
+        FAQ
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../changelog/" class="md-nav__link">
+        Changelog
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/akhi9661/ocm2/issues" class="md-nav__link">
+        Report Issues
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+          API Reference
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          API Reference
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          ocm2 module
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        ocm2 module
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#ocm2.ocm2" class="md-nav__link">
+    ocm2.ocm2
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ocm2.ocm2.ExportSubdatasets" class="md-nav__link">
+    ExportSubdatasets()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ocm2.ocm2.Georeference" class="md-nav__link">
+    Georeference()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ocm2.ocm2.GetExtent" class="md-nav__link">
+    GetExtent()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ocm2.ocm2.calc_toa" class="md-nav__link">
+    calc_toa()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ocm2.ocm2.cloudmask_ocm" class="md-nav__link">
+    cloudmask_ocm()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ocm2.ocm2.do_cldmsk" class="md-nav__link">
+    do_cldmsk()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ocm2.ocm2.do_georef" class="md-nav__link">
+    do_georef()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ocm2.ocm2.do_ref" class="md-nav__link">
+    do_ref()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ocm2.ocm2.list_files" class="md-nav__link">
+    list_files()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ocm2.ocm2.metaInfo" class="md-nav__link">
+    metaInfo()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ocm2.ocm2.run_ocm2" class="md-nav__link">
+    run_ocm2()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ocm2.ocm2.sum_toa" class="md-nav__link">
+    sum_toa()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ocm2.ocm2.toa_convert" class="md-nav__link">
+    toa_convert()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ocm2.ocm2.toa_other" class="md-nav__link">
+    toa_other()
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#ocm2.ocm2" class="md-nav__link">
+    ocm2.ocm2
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ocm2.ocm2.ExportSubdatasets" class="md-nav__link">
+    ExportSubdatasets()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ocm2.ocm2.Georeference" class="md-nav__link">
+    Georeference()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ocm2.ocm2.GetExtent" class="md-nav__link">
+    GetExtent()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ocm2.ocm2.calc_toa" class="md-nav__link">
+    calc_toa()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ocm2.ocm2.cloudmask_ocm" class="md-nav__link">
+    cloudmask_ocm()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ocm2.ocm2.do_cldmsk" class="md-nav__link">
+    do_cldmsk()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ocm2.ocm2.do_georef" class="md-nav__link">
+    do_georef()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ocm2.ocm2.do_ref" class="md-nav__link">
+    do_ref()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ocm2.ocm2.list_files" class="md-nav__link">
+    list_files()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ocm2.ocm2.metaInfo" class="md-nav__link">
+    metaInfo()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ocm2.ocm2.run_ocm2" class="md-nav__link">
+    run_ocm2()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ocm2.ocm2.sum_toa" class="md-nav__link">
+    sum_toa()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ocm2.ocm2.toa_convert" class="md-nav__link">
+    toa_convert()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ocm2.ocm2.toa_other" class="md-nav__link">
+    toa_other()
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+
+
+
+                  
+
+  
+  
+
+
+<h1 id="ocm2-modules">ocm2 modules<a class="headerlink" href="#ocm2-modules" title="Permanent link">&para;</a></h1>
+
+
+  <div class="doc doc-object doc-module">
+
+<a id="ocm2.ocm2"></a>
+    <div class="doc doc-contents first">
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="ocm2.ocm2.ExportSubdatasets" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">ExportSubdatasets</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">hdf_file</span><span class="p">)</span></code>
+
+
+<a href="#ocm2.ocm2.ExportSubdatasets" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>This function takes the folder path and the HDF file as input and exports individual layers to TIFF (named GeoTIFF)</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>path</code></td>
+        <td><code>str</code></td>
+        <td><p>Path to the folder containing the HDF file.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>hdf_file</code></td>
+        <td><code>str</code></td>
+        <td><p>Name of the HDF file.</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>opf_tif (str)</code></td>
+      <td><p>Path to the folder containing the GeoTiff files.</p></td>
+    </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>ocm2/ocm2.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">ExportSubdatasets</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">hdf_file</span><span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;   </span>
+<span class="sd">    This function takes the folder path and the HDF file as input and exports individual layers to TIFF (named GeoTIFF)</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        path (str): Path to the folder containing the HDF file.</span>
+<span class="sd">        hdf_file (str): Name of the HDF file.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        opf_tif (str): Path to the folder containing the GeoTiff files.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">opf_tif</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;GeoTiff&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">opf_tif</span><span class="p">):</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">opf_tif</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">opf_tif</span><span class="p">)</span>
+
+    <span class="n">inp_hdf</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">hdf_file</span><span class="p">)</span>
+    <span class="n">hdf_ds</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">inp_hdf</span><span class="p">,</span> <span class="n">gdal</span><span class="o">.</span><span class="n">GA_ReadOnly</span><span class="p">)</span>
+    <span class="n">subdatasets</span> <span class="o">=</span> <span class="n">hdf_ds</span><span class="o">.</span><span class="n">GetSubDatasets</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">subdatasets</span><span class="p">)):</span>
+        <span class="n">subdataset_name</span> <span class="o">=</span> <span class="n">subdatasets</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">band_ds</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">subdataset_name</span><span class="p">,</span> <span class="n">gdal</span><span class="o">.</span><span class="n">GA_ReadOnly</span><span class="p">)</span>
+        <span class="n">band_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">opf_tif</span><span class="p">,</span> <span class="s1">&#39;band</span><span class="si">{0}</span><span class="s1">.TIF&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">band_ds</span><span class="o">.</span><span class="n">RasterCount</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">band_ds</span><span class="o">.</span><span class="n">RasterCount</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">band</span> <span class="o">=</span> <span class="n">band_ds</span><span class="o">.</span><span class="n">GetRasterBand</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+                <span class="n">band_array</span> <span class="o">=</span> <span class="n">band</span><span class="o">.</span><span class="n">ReadAsArray</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">band_array</span> <span class="o">=</span> <span class="n">band_ds</span><span class="o">.</span><span class="n">ReadAsArray</span><span class="p">()</span>
+
+        <span class="n">out_ds</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">GetDriverByName</span><span class="p">(</span><span class="s1">&#39;GTiff&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">band_path</span><span class="p">,</span>
+                                                      <span class="n">band_ds</span><span class="o">.</span><span class="n">RasterXSize</span><span class="p">,</span>
+                                                      <span class="n">band_ds</span><span class="o">.</span><span class="n">RasterYSize</span><span class="p">,</span>
+                                                      <span class="mi">1</span><span class="p">,</span>
+                                                      <span class="n">gdal</span><span class="o">.</span><span class="n">GDT_Float64</span><span class="p">,</span>
+                                                      <span class="p">[</span><span class="s1">&#39;COMPRESS=LZW&#39;</span><span class="p">,</span> <span class="s1">&#39;TILED=YES&#39;</span><span class="p">])</span>
+
+
+        <span class="n">out_ds</span><span class="o">.</span><span class="n">SetGeoTransform</span><span class="p">(</span><span class="n">band_ds</span><span class="o">.</span><span class="n">GetGeoTransform</span><span class="p">())</span>
+        <span class="n">out_ds</span><span class="o">.</span><span class="n">SetProjection</span><span class="p">(</span><span class="n">band_ds</span><span class="o">.</span><span class="n">GetProjection</span><span class="p">())</span>
+        <span class="n">out_ds</span><span class="o">.</span><span class="n">GetRasterBand</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">WriteArray</span><span class="p">(</span><span class="n">band_array</span><span class="p">)</span>
+        <span class="n">out_ds</span><span class="o">.</span><span class="n">GetRasterBand</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">SetNoDataValue</span><span class="p">(</span><span class="o">-</span><span class="mi">32768</span><span class="p">)</span>
+
+    <span class="n">out_ds</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">return</span> <span class="n">opf_tif</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="ocm2.ocm2.Georeference" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">Georeference</span><span class="p">(</span><span class="n">inpf</span><span class="p">,</span> <span class="n">gtif</span><span class="p">,</span> <span class="n">meta</span><span class="p">,</span> <span class="n">opf_ref</span><span class="p">)</span></code>
+
+
+<a href="#ocm2.ocm2.Georeference" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>This function georeferences the GeoTiff files using the metadata of the HDF file.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>inpf</code></td>
+        <td><code>str</code></td>
+        <td><p>Path to the folder containing the GeoTiff files.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>gtif</code></td>
+        <td><code>str</code></td>
+        <td><p>Name of the GeoTiff file.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>meta</code></td>
+        <td><code>dict</code></td>
+        <td><p>Dictionary containing the metadata of the HDF file.</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>opf_ref (str)</code></td>
+      <td><p>Path to the folder containing the georeferenced GeoTiff files.</p></td>
+    </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>ocm2/ocm2.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">Georeference</span><span class="p">(</span><span class="n">inpf</span><span class="p">,</span> <span class="n">gtif</span><span class="p">,</span> <span class="n">meta</span><span class="p">,</span> <span class="n">opf_ref</span><span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function georeferences the GeoTiff files using the metadata of the HDF file.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        inpf (str): Path to the folder containing the GeoTiff files.</span>
+<span class="sd">        gtif (str): Name of the GeoTiff file.</span>
+<span class="sd">        meta (dict): Dictionary containing the metadata of the HDF file.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        opf_ref (str): Path to the folder containing the georeferenced GeoTiff files.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">inp_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">inpf</span><span class="p">,</span> <span class="n">gtif</span><span class="p">)</span>
+    <span class="n">band_tif</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">inp_file</span><span class="p">)</span>
+    <span class="n">ext</span> <span class="o">=</span> <span class="n">GetExtent</span><span class="p">(</span><span class="n">band_tif</span><span class="p">)</span>
+
+    <span class="n">ext_pos</span> <span class="o">=</span> <span class="p">[(</span><span class="nb">abs</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">abs</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">ext</span><span class="p">]</span>
+
+    <span class="n">out_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">opf_ref</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">gtif</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;_georef.TIF&#39;</span><span class="p">)</span>
+    <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">inp_file</span><span class="p">,</span> <span class="n">out_file</span><span class="p">)</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">out_file</span><span class="p">,</span> <span class="n">gdal</span><span class="o">.</span><span class="n">GA_Update</span><span class="p">)</span>
+    <span class="n">sr</span> <span class="o">=</span> <span class="n">osr</span><span class="o">.</span><span class="n">SpatialReference</span><span class="p">()</span>
+    <span class="n">sr</span><span class="o">.</span><span class="n">ImportFromEPSG</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span> 
+
+
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Enter the GCPs</span>
+<span class="sd">    Format: [map x-coordinate(longitude)], [map y-coordinate (latitude)], [elevation],</span>
+<span class="sd">    [image column index(x)], [image row index (y)]</span>
+<span class="sd">    If map pixel is negative, multiply it with -1 to make positive since GDAL can&#39;t handle negative pixel position that well.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">gcps</span> <span class="o">=</span> <span class="p">[</span><span class="n">gdal</span><span class="o">.</span><span class="n">GCP</span><span class="p">(</span><span class="n">meta</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">meta</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ext_pos</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">ext_pos</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]),</span> 
+            <span class="n">gdal</span><span class="o">.</span><span class="n">GCP</span><span class="p">(</span><span class="n">meta</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">meta</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ext_pos</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">ext_pos</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]),</span>
+            <span class="n">gdal</span><span class="o">.</span><span class="n">GCP</span><span class="p">(</span><span class="n">meta</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">meta</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ext_pos</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">ext_pos</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">1</span><span class="p">]),</span> 
+            <span class="n">gdal</span><span class="o">.</span><span class="n">GCP</span><span class="p">(</span><span class="n">meta</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">meta</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ext_pos</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">ext_pos</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">1</span><span class="p">])]</span>
+
+    <span class="n">ds</span><span class="o">.</span><span class="n">SetGCPs</span><span class="p">(</span><span class="n">gcps</span><span class="p">,</span> <span class="n">sr</span><span class="o">.</span><span class="n">ExportToWkt</span><span class="p">())</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">return</span> <span class="n">opf_ref</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="ocm2.ocm2.GetExtent" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">GetExtent</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span></code>
+
+
+<a href="#ocm2.ocm2.GetExtent" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>This function returns the extent of the raster. </p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>ds</code></td>
+        <td><code>object</code></td>
+        <td><p>GDAL dataset object.</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>(xmin, ymax), (xmax, ymax), (xmax, ymin), (xmin, ymin) (tuple)</code></td>
+      <td><p>Extent of the raster.</p></td>
+    </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>ocm2/ocm2.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">GetExtent</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function returns the extent of the raster. </span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        ds (object): GDAL dataset object.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        (xmin, ymax), (xmax, ymax), (xmax, ymin), (xmin, ymin) (tuple): Extent of the raster.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">xmin</span><span class="p">,</span> <span class="n">xpixel</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">ymax</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">ypixel</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">GetGeoTransform</span><span class="p">()</span>
+    <span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">RasterXSize</span><span class="p">,</span> <span class="n">ds</span><span class="o">.</span><span class="n">RasterYSize</span>
+    <span class="n">xmax</span> <span class="o">=</span> <span class="n">xmin</span> <span class="o">+</span> <span class="n">width</span> <span class="o">*</span> <span class="n">xpixel</span>
+    <span class="n">ymin</span> <span class="o">=</span> <span class="n">ymax</span> <span class="o">+</span> <span class="n">height</span> <span class="o">*</span> <span class="n">ypixel</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">xmin</span><span class="p">,</span> <span class="n">ymax</span><span class="p">),</span> <span class="p">(</span><span class="n">xmax</span><span class="p">,</span> <span class="n">ymax</span><span class="p">),</span> <span class="p">(</span><span class="n">xmax</span><span class="p">,</span> <span class="n">ymin</span><span class="p">),</span> <span class="p">(</span><span class="n">xmin</span><span class="p">,</span> <span class="n">ymin</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="ocm2.ocm2.calc_toa" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">calc_toa</span><span class="p">(</span><span class="n">rad</span><span class="p">,</span> <span class="n">sun_elev</span><span class="p">,</span> <span class="n">band_no</span><span class="p">)</span></code>
+
+
+<a href="#ocm2.ocm2.calc_toa" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>This function calculates the top of atmosphere reflectance.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>rad</code></td>
+        <td><code>numpy array</code></td>
+        <td><p>Array containing the radiance values.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>sun_elev</code></td>
+        <td><code>float</code></td>
+        <td><p>Sun elevation angle.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>band_no</code></td>
+        <td><code>int</code></td>
+        <td><p>Band number.</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>toa_reflectance (numpy array)</code></td>
+      <td><p>Array containing the top of atmosphere reflectance values.</p></td>
+    </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>ocm2/ocm2.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">calc_toa</span><span class="p">(</span><span class="n">rad</span><span class="p">,</span> <span class="n">sun_elev</span><span class="p">,</span> <span class="n">band_no</span><span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function calculates the top of atmosphere reflectance.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        rad (numpy array): Array containing the radiance values.</span>
+<span class="sd">        sun_elev (float): Sun elevation angle.</span>
+<span class="sd">        band_no (int): Band number.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        toa_reflectance (numpy array): Array containing the top of atmosphere reflectance values.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">esol</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.72815</span><span class="p">,</span> <span class="mf">1.85211</span><span class="p">,</span> <span class="mf">1.9721</span><span class="p">,</span> <span class="mf">1.86697</span><span class="p">,</span> <span class="mf">1.82781</span><span class="p">,</span> <span class="mf">1.65765</span><span class="p">,</span> <span class="mf">1.2897</span><span class="p">,</span> <span class="mf">0.952073</span><span class="p">]</span>
+    <span class="n">toa_reflectance</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="mi">1</span> <span class="o">*</span> <span class="n">rad</span> <span class="o">*</span> <span class="mi">10</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">esol</span><span class="p">[</span><span class="n">band_no</span><span class="p">]</span> <span class="o">*</span> <span class="mi">1000</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">sun_elev</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">toa_reflectance</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="ocm2.ocm2.cloudmask_ocm" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">cloudmask_ocm</span><span class="p">(</span><span class="n">inpf</span><span class="p">,</span> <span class="n">filelist</span><span class="p">)</span></code>
+
+
+<a href="#ocm2.ocm2.cloudmask_ocm" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>This function creates the cloud mask based on Mishra et al. (2018).</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>inpf</code></td>
+        <td><code>str</code></td>
+        <td><p>Path to the folder containing the GeoTiff files.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>filelist</code></td>
+        <td><code>list</code></td>
+        <td><p>List containing the GeoTiff files.</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>cldmsk (numpy array)</code></td>
+      <td><p>Array containing the cloud mask.</p></td>
+    </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>ocm2/ocm2.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">cloudmask_ocm</span><span class="p">(</span><span class="n">inpf</span><span class="p">,</span> <span class="n">filelist</span><span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function creates the cloud mask based on Mishra et al. (2018).</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        inpf (str): Path to the folder containing the GeoTiff files.</span>
+<span class="sd">        filelist (list): List containing the GeoTiff files.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        cldmsk (numpy array): Array containing the cloud mask.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">toa_sum</span> <span class="o">=</span> <span class="n">sum_toa</span><span class="p">(</span><span class="n">filelist</span><span class="p">)</span>
+    <span class="n">toa_diff</span><span class="p">,</span> <span class="n">toa_ratio</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">profile</span> <span class="o">=</span> <span class="n">toa_other</span><span class="p">(</span><span class="n">filelist</span><span class="p">)</span> 
+
+    <span class="n">cldmsk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+    <span class="n">cldmsk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(((</span><span class="n">toa_sum</span> <span class="o">&gt;</span> <span class="mf">2.7</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">toa_ratio</span> <span class="o">&gt;</span> <span class="mf">1.5</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">toa_diff</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)),</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="p">(</span><span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">)((</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">inpf</span><span class="p">,</span> <span class="s1">&#39;cloud_mask.TIF&#39;</span><span class="p">)),</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">profile</span><span class="p">)</span> <span class="k">as</span> <span class="p">(</span><span class="n">dst</span><span class="p">):</span>
+        <span class="n">dst</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">cldmsk</span><span class="p">)</span>
+    <span class="n">dst</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">cldmsk</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="ocm2.ocm2.do_cldmsk" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">do_cldmsk</span><span class="p">(</span><span class="n">opf_ref</span><span class="p">)</span></code>
+
+
+<a href="#ocm2.ocm2.do_cldmsk" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>This function calls the function that creates the cloud mask.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>opf_ref</code></td>
+        <td><code>str</code></td>
+        <td><p>Path to the folder containing the output georeferenced GeoTiff files.</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td></td>
+      <td><p>None</p></td>
+    </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>ocm2/ocm2.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">do_cldmsk</span><span class="p">(</span><span class="n">opf_ref</span><span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function calls the function that creates the cloud mask.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        opf_ref (str): Path to the folder containing the output georeferenced GeoTiff files.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">files</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">original</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">opf_ref</span><span class="p">)</span>
+    <span class="n">gtif</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">endswith</span><span class="p">((</span><span class="s2">&quot;TIF&quot;</span><span class="p">,</span> <span class="s2">&quot;tif&quot;</span><span class="p">,</span> <span class="s2">&quot;img&quot;</span><span class="p">)),</span> <span class="n">original</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">band_name</span> <span class="ow">in</span> <span class="n">gtif</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">isdigit</span><span class="p">,</span> <span class="n">band_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])))))</span> <span class="o">&lt;=</span> <span class="mi">7</span><span class="p">:</span>
+            <span class="n">filelist</span> <span class="o">=</span> <span class="n">list_files</span><span class="p">(</span><span class="n">opf_ref</span><span class="p">,</span> <span class="n">band_name</span><span class="p">,</span> <span class="n">files</span><span class="p">)</span>
+
+    <span class="n">cldmsk</span> <span class="o">=</span> <span class="n">cloudmask_ocm</span><span class="p">(</span><span class="n">opf_ref</span><span class="p">,</span> <span class="n">filelist</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="kc">None</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="ocm2.ocm2.do_georef" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">do_georef</span><span class="p">(</span><span class="n">opf_ref</span><span class="p">,</span> <span class="n">meta</span><span class="p">,</span> <span class="n">opf_georef</span><span class="p">)</span></code>
+
+
+<a href="#ocm2.ocm2.do_georef" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>This function calls the function that georeferences the top of atmosphere reflectance GeoTiff files.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>geo_ref</code></td>
+        <td><code>str</code></td>
+        <td><p>Path to the folder containing the georeferenced GeoTiff files.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>meta</code></td>
+        <td><code>list</code></td>
+        <td><p>List containing the metadata of the HDF files.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>opf_georef</code></td>
+        <td><code>str</code></td>
+        <td><p>Path to the folder containing the output georeferenced GeoTiff files. </p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>opf_georef (str)</code></td>
+      <td><p>Path to the folder containing the output georeferenced GeoTiff files.</p></td>
+    </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>ocm2/ocm2.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">do_georef</span><span class="p">(</span><span class="n">opf_ref</span><span class="p">,</span> <span class="n">meta</span><span class="p">,</span> <span class="n">opf_georef</span><span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function calls the function that georeferences the top of atmosphere reflectance GeoTiff files.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        geo_ref (str): Path to the folder containing the georeferenced GeoTiff files.</span>
+<span class="sd">        meta (list): List containing the metadata of the HDF files.</span>
+<span class="sd">        opf_georef (str): Path to the folder containing the output georeferenced GeoTiff files. </span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        opf_georef (str): Path to the folder containing the output georeferenced GeoTiff files.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">original</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">opf_ref</span><span class="p">)</span>
+    <span class="n">gtif</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">endswith</span><span class="p">((</span><span class="s2">&quot;TIF&quot;</span><span class="p">,</span> <span class="s2">&quot;tif&quot;</span><span class="p">,</span> <span class="s2">&quot;img&quot;</span><span class="p">)),</span> <span class="n">original</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">band_name</span> <span class="ow">in</span> <span class="n">gtif</span><span class="p">:</span>
+        <span class="n">Georeference</span><span class="p">(</span><span class="n">opf_ref</span><span class="p">,</span> <span class="n">band_name</span><span class="p">,</span> <span class="n">meta</span><span class="p">,</span> <span class="n">opf_georef</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">opf_georef</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="ocm2.ocm2.do_ref" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">do_ref</span><span class="p">(</span><span class="n">opf_tif</span><span class="p">,</span> <span class="n">meta</span><span class="p">,</span> <span class="n">opf_ref</span><span class="p">)</span></code>
+
+
+<a href="#ocm2.ocm2.do_ref" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>This function calls the function that creates the top of atmosphere reflectance GeoTiff files.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>opf_tif</code></td>
+        <td><code>str</code></td>
+        <td><p>Path to the folder containing the GeoTiff files.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>meta</code></td>
+        <td><code>list</code></td>
+        <td><p>List containing the metadata of the GeoTiff files.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>opf_ref</code></td>
+        <td><code>str</code></td>
+        <td><p>Path to the folder containing the output reflectance GeoTiff files. Temporary folder.</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td></td>
+      <td><p>None</p></td>
+    </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>ocm2/ocm2.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">do_ref</span><span class="p">(</span><span class="n">opf_tif</span><span class="p">,</span> <span class="n">meta</span><span class="p">,</span> <span class="n">opf_ref</span><span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function calls the function that creates the top of atmosphere reflectance GeoTiff files.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        opf_tif (str): Path to the folder containing the GeoTiff files.</span>
+<span class="sd">        meta (list): List containing the metadata of the GeoTiff files.</span>
+<span class="sd">        opf_ref (str): Path to the folder containing the output reflectance GeoTiff files. Temporary folder.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">original</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">opf_tif</span><span class="p">)</span>
+    <span class="n">gtif</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">endswith</span><span class="p">((</span><span class="s2">&quot;TIF&quot;</span><span class="p">,</span> <span class="s2">&quot;tif&quot;</span><span class="p">,</span> <span class="s2">&quot;img&quot;</span><span class="p">)),</span> <span class="n">original</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">band_name</span> <span class="ow">in</span> <span class="n">gtif</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">isdigit</span><span class="p">,</span> <span class="n">band_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])))))</span> <span class="o">&lt;=</span> <span class="mi">7</span><span class="p">:</span>
+            <span class="n">toa_convert</span><span class="p">(</span><span class="n">opf_tif</span><span class="p">,</span> <span class="n">band_name</span><span class="p">,</span> <span class="n">opf_ref</span><span class="p">,</span> <span class="n">meta</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">opf_tif</span><span class="p">,</span> <span class="n">band_name</span><span class="p">),</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">opf_ref</span><span class="p">,</span> <span class="n">band_name</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="kc">None</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="ocm2.ocm2.list_files" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">list_files</span><span class="p">(</span><span class="n">inpf</span><span class="p">,</span> <span class="n">inp_name</span><span class="p">,</span> <span class="n">files</span><span class="p">)</span></code>
+
+
+<a href="#ocm2.ocm2.list_files" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>This function lists the GeoTiff files.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>inpf</code></td>
+        <td><code>str</code></td>
+        <td><p>Path to the folder containing the GeoTiff files.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>inp_name</code></td>
+        <td><code>str</code></td>
+        <td><p>Name of the GeoTiff file.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>files</code></td>
+        <td><code>list</code></td>
+        <td><p>List containing the GeoTiff files. Empty list at the beginning.</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>files (list)</code></td>
+      <td><p>List containing the GeoTiff files.</p></td>
+    </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>ocm2/ocm2.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">list_files</span><span class="p">(</span><span class="n">inpf</span><span class="p">,</span> <span class="n">inp_name</span><span class="p">,</span> <span class="n">files</span><span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function lists the GeoTiff files.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        inpf (str): Path to the folder containing the GeoTiff files.</span>
+<span class="sd">        inp_name (str): Name of the GeoTiff file.</span>
+<span class="sd">        files (list): List containing the GeoTiff files. Empty list at the beginning.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        files (list): List containing the GeoTiff files.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">files</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">inpf</span><span class="p">,</span> <span class="n">inp_name</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">files</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="ocm2.ocm2.metaInfo" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">metaInfo</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">hdf_file</span><span class="p">,</span> <span class="nb">input</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+
+<a href="#ocm2.ocm2.metaInfo" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>This function returns the metadata of the HDF file.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>path</code></td>
+        <td><code>str</code></td>
+        <td><p>Path to the folder containing the HDF file.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>hdf_file</code></td>
+        <td><code>str</code></td>
+        <td><p>Name of the HDF file.</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>      <p>Returns: 
+    (ulx,  uly), (urx, ury), (brx, bry), (blx, bly), (sun_elev) (tuple): Metadata of the HDF file.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>ocm2/ocm2.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">metaInfo</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">hdf_file</span><span class="p">,</span> <span class="nb">input</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function returns the metadata of the HDF file.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        path (str): Path to the folder containing the HDF file.</span>
+<span class="sd">        hdf_file (str): Name of the HDF file.</span>
+
+<span class="sd">    Returns: </span>
+<span class="sd">        (ulx,  uly), (urx, ury), (brx, bry), (blx, bly), (sun_elev) (tuple): Metadata of the HDF file.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">inp</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">hdf_file</span><span class="p">))</span>
+    <span class="n">meta</span> <span class="o">=</span> <span class="n">inp</span><span class="o">.</span><span class="n">GetMetadata</span><span class="p">()</span>
+
+    <span class="n">ulx</span><span class="p">,</span> <span class="n">uly</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;Upper Left Longitude&#39;</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;Upper Left Latitude&#39;</span><span class="p">])</span>
+    <span class="n">urx</span><span class="p">,</span> <span class="n">ury</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;Upper Right Longitude&#39;</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;Upper Right Latitude&#39;</span><span class="p">])</span>
+    <span class="n">blx</span><span class="p">,</span> <span class="n">bly</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;Lower Left Longitude&#39;</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;Lower Left Latitude&#39;</span><span class="p">])</span>
+    <span class="n">brx</span><span class="p">,</span> <span class="n">bry</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;Lower Right Longitude&#39;</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;Lower Right Latitude&#39;</span><span class="p">])</span>
+
+    <span class="n">sun_elev</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;Sun Elevation Angle&#39;</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">ulx</span><span class="p">,</span>  <span class="n">uly</span><span class="p">),</span> <span class="p">(</span><span class="n">urx</span><span class="p">,</span> <span class="n">ury</span><span class="p">),</span> <span class="p">(</span><span class="n">brx</span><span class="p">,</span> <span class="n">bry</span><span class="p">),</span> <span class="p">(</span><span class="n">blx</span><span class="p">,</span> <span class="n">bly</span><span class="p">),</span> <span class="p">(</span><span class="n">sun_elev</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="ocm2.ocm2.run_ocm2" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">run_ocm2</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">hdf_file</span><span class="p">)</span></code>
+
+
+<a href="#ocm2.ocm2.run_ocm2" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>This is the main function of the script. It calls all the other functions. </p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>path</code></td>
+        <td><code>str</code></td>
+        <td><p>Path to the folder containing the HDF files.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>hdf_file</code></td>
+        <td><code>str</code></td>
+        <td><p>Name of the HDF file.</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>opf_georef (str)</code></td>
+      <td><p>Path to folder containing georeferenced ToA reflectance files.</p></td>
+    </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>ocm2/ocm2.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">run_ocm2</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">hdf_file</span><span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This is the main function of the script. It calls all the other functions. </span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        path (str): Path to the folder containing the HDF files.</span>
+<span class="sd">        hdf_file (str): Name of the HDF file.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        opf_georef (str): Path to folder containing georeferenced ToA reflectance files.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">meta</span> <span class="o">=</span> <span class="n">metaInfo</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">hdf_file</span><span class="p">)</span>
+    <span class="n">opf_tif</span> <span class="o">=</span> <span class="n">ExportSubdatasets</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">hdf_file</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Done: Layers converted to GeoTIFF. Wait.&#39;</span><span class="p">)</span>
+
+    <span class="n">opf_ref</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;Reflectance&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">opf_ref</span><span class="p">):</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">opf_ref</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">opf_ref</span><span class="p">)</span>
+
+    <span class="n">opf_georef</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;Georeferenced&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">opf_georef</span><span class="p">):</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">opf_georef</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">opf_georef</span><span class="p">)</span>
+
+    <span class="n">do_ref</span><span class="p">(</span><span class="n">opf_tif</span><span class="p">,</span> <span class="n">meta</span><span class="p">,</span> <span class="n">opf_ref</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Done: Reflectance conversion. Wait.&#39;</span><span class="p">)</span>
+
+    <span class="n">do_cldmsk</span><span class="p">(</span><span class="n">opf_ref</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Done: Cloudmasking. Wait.&#39;</span><span class="p">)</span>
+
+    <span class="n">opf_georef</span> <span class="o">=</span> <span class="n">do_georef</span><span class="p">(</span><span class="n">opf_ref</span><span class="p">,</span> <span class="n">meta</span><span class="p">,</span> <span class="n">opf_georef</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Done: Georeferncing&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">opf_tif</span><span class="p">):</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">opf_tif</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">opf_ref</span><span class="p">):</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">opf_ref</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">opf_georef</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="ocm2.ocm2.sum_toa" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">sum_toa</span><span class="p">(</span><span class="n">filelist</span><span class="p">)</span></code>
+
+
+<a href="#ocm2.ocm2.sum_toa" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>This function sums the top of atmosphere reflectance values.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>filelist</code></td>
+        <td><code>list</code></td>
+        <td><p>List containing the GeoTiff files.</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>arr (numpy array)</code></td>
+      <td><p>Array containing the sum of the top of atmosphere reflectance values.</p></td>
+    </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>ocm2/ocm2.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">sum_toa</span><span class="p">(</span><span class="n">filelist</span><span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function sums the top of atmosphere reflectance values.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        filelist (list): List containing the GeoTiff files.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        arr (numpy array): Array containing the sum of the top of atmosphere reflectance values.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filelist</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">as</span> <span class="n">r</span><span class="p">:</span>
+        <span class="n">arr</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="n">profile</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">profile</span>
+
+    <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">filelist</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+        <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="k">as</span> <span class="n">r</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">profile</span> <span class="o">==</span> <span class="n">r</span><span class="o">.</span><span class="n">profile</span><span class="p">,</span> <span class="s1">&#39;stopping, file </span><span class="si">{}</span><span class="s1"> and  </span><span class="si">{}</span><span class="s1"> do not have matching profiles&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filelist</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">f</span><span class="p">)</span>
+            <span class="n">arr</span> <span class="o">=</span> <span class="n">arr</span> <span class="o">+</span> <span class="n">r</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="ocm2.ocm2.toa_convert" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">toa_convert</span><span class="p">(</span><span class="n">inpf</span><span class="p">,</span> <span class="n">inp_name</span><span class="p">,</span> <span class="n">opf</span><span class="p">,</span> <span class="n">sun_elev</span><span class="p">)</span></code>
+
+
+<a href="#ocm2.ocm2.toa_convert" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>This function converts the radiance values to top of atmosphere reflectance values.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>inpf</code></td>
+        <td><code>str</code></td>
+        <td><p>Path to the folder containing the GeoTiff files.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>inp_name</code></td>
+        <td><code>str</code></td>
+        <td><p>Name of the GeoTiff file.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>opf</code></td>
+        <td><code>str</code></td>
+        <td><p>Path to the folder containing the output GeoTiff files.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>sun_elev</code></td>
+        <td><code>float</code></td>
+        <td><p>Sun elevation angle.</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>opf (str)</code></td>
+      <td><p>Path to the folder containing the output GeoTiff files.</p></td>
+    </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>ocm2/ocm2.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">toa_convert</span><span class="p">(</span><span class="n">inpf</span><span class="p">,</span> <span class="n">inp_name</span><span class="p">,</span> <span class="n">opf</span><span class="p">,</span> <span class="n">sun_elev</span><span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function converts the radiance values to top of atmosphere reflectance values.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        inpf (str): Path to the folder containing the GeoTiff files.</span>
+<span class="sd">        inp_name (str): Name of the GeoTiff file.</span>
+<span class="sd">        opf (str): Path to the folder containing the output GeoTiff files.</span>
+<span class="sd">        sun_elev (float): Sun elevation angle.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        opf (str): Path to the folder containing the output GeoTiff files.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">band_no</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">isdigit</span><span class="p">,</span> <span class="n">inp_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]))))</span>
+    <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">inpf</span><span class="p">,</span> <span class="n">inp_name</span><span class="p">))</span> <span class="k">as</span> <span class="p">(</span><span class="n">r</span><span class="p">):</span>
+        <span class="n">rad</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+        <span class="n">profile</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">profile</span>
+
+    <span class="n">toa</span> <span class="o">=</span> <span class="n">calc_toa</span><span class="p">(</span><span class="n">rad</span><span class="p">,</span> <span class="n">sun_elev</span><span class="p">,</span> <span class="n">band_no</span><span class="p">)</span>
+    <span class="n">toa</span><span class="p">[</span><span class="n">toa</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">toa</span><span class="p">[</span><span class="n">toa</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>   
+    <span class="n">op_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">inp_name</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;.TIF&#39;</span>
+    <span class="k">with</span> <span class="p">(</span><span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">)((</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">opf</span><span class="p">,</span> <span class="n">op_name</span><span class="p">)),</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">profile</span><span class="p">)</span> <span class="k">as</span> <span class="p">(</span><span class="n">dataset</span><span class="p">):</span>
+        <span class="n">dataset</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">toa</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">dataset</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">opf</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="ocm2.ocm2.toa_other" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">toa_other</span><span class="p">(</span><span class="n">filelist</span><span class="p">)</span></code>
+
+
+<a href="#ocm2.ocm2.toa_other" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>This function calculates the difference and ratio of the top of atmosphere reflectance values.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>filelist</code></td>
+        <td><code>list</code></td>
+        <td><p>List containing the GeoTiff files.</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>toa_diff (numpy array)</code></td>
+      <td><p>Array containing the difference of the top of atmosphere reflectance values.
+toa_ratio (numpy array): Array containing the ratio of the top of atmosphere reflectance values.
+shape (tuple): Tuple containing the shape of the GeoTiff file.
+profile (dict): Dictionary containing the profile of the GeoTiff file.</p></td>
+    </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>ocm2/ocm2.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">toa_other</span><span class="p">(</span><span class="n">filelist</span><span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function calculates the difference and ratio of the top of atmosphere reflectance values.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        filelist (list): List containing the GeoTiff files.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        toa_diff (numpy array): Array containing the difference of the top of atmosphere reflectance values.</span>
+<span class="sd">        toa_ratio (numpy array): Array containing the ratio of the top of atmosphere reflectance values.</span>
+<span class="sd">        shape (tuple): Tuple containing the shape of the GeoTiff file.</span>
+<span class="sd">        profile (dict): Dictionary containing the profile of the GeoTiff file.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">one</span><span class="p">,</span> <span class="n">two</span><span class="p">,</span> <span class="n">seven</span> <span class="o">=</span> <span class="p">[</span><span class="n">filelist</span><span class="p">[</span><span class="n">check</span><span class="p">]</span> <span class="k">for</span> <span class="n">check</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">6</span><span class="p">]]</span>
+
+    <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">one</span><span class="p">)</span> <span class="k">as</span> <span class="n">r</span><span class="p">:</span>
+        <span class="n">band1</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="n">profile</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">profile</span>
+    <span class="n">shape</span> <span class="o">=</span> <span class="n">band1</span><span class="o">.</span><span class="n">shape</span>
+    <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">two</span><span class="p">)</span> <span class="k">as</span> <span class="n">r</span><span class="p">:</span>
+        <span class="n">band2</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">seven</span><span class="p">)</span> <span class="k">as</span> <span class="n">r</span><span class="p">:</span>
+        <span class="n">band7</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+
+    <span class="n">band2</span><span class="p">[</span><span class="n">band2</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">band7</span><span class="p">[</span><span class="n">band7</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+    <span class="n">toa_diff</span> <span class="o">=</span> <span class="n">band2</span> <span class="o">-</span> <span class="n">band1</span>
+    <span class="n">toa_ratio</span> <span class="o">=</span> <span class="n">band2</span><span class="o">/</span><span class="n">band7</span> 
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">toa_diff</span><span class="p">,</span> <span class="n">toa_ratio</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">profile</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+  <hr>
+<div class="md-source-file">
+  <small>
+    
+      Last update:
+      2023-06-22
+    
+  </small>
+</div>
+
+
+
+
+
+                
+
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "search.highlight"], "search": "../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.a51614de.min.js"></script>
+      
+    
+  </body>
+</html>
